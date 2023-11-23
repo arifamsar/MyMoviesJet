@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Movies</string>
+    <string name="about_me">About Me</string>
+    <string name="name">Muhammad Arif Amsar</string>
+    <string name="email">muhammadarifamsar@gmail.com</string>
+    <string name="back">Back</string>
+    <string name="favorite_menu">Favorite list</string>
+    <string name="search_film">Search film here</string>
+    <string name="no_favorite">No favorite added</string>
+    <string name="add_favorite">Add to favorite</string>
+    <string name="remove_favorite">Remove from favorite</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="profile">Profile</string>
+</resources>
