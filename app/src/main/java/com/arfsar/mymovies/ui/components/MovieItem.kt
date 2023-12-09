@@ -47,13 +47,15 @@ fun MovieItem(
     title: String,
     genre: String,
     synopsis: String,
+    isFavorite: Boolean,
+    favoriteToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
         modifier = Modifier
-            .size(width = 170.dp, height = 300.dp),
+            .size(width = 170.dp, height = 350.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
         ),
@@ -107,6 +109,53 @@ fun MovieItem(
                         .padding(top = 4.dp)
                 )
             }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 16.dp),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.Bottom
+            ) {
+                FavoriteToggleButton(
+                    isFavorite = isFavorite,
+                    favoriteToggle = favoriteToggle,
+                    modifier = Modifier
+                        .size(28.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun FavoriteToggleButton(
+    isFavorite: Boolean,
+    favoriteToggle: () -> Unit,
+    modifier: Modifier = Modifier,
+    colors: IconToggleButtonColors = IconButtonDefaults.iconToggleButtonColors()
+) {
+    var isChecked by remember { mutableStateOf(isFavorite) }
+
+    IconToggleButton(
+        checked = isChecked,
+        onCheckedChange = {
+            isChecked = !isChecked
+            favoriteToggle()
+        },
+        modifier = modifier
+            .testTag("favoriteToggle"),
+        colors = colors
+    ) {
+        if (isChecked) {
+            Icon(
+                imageVector = Icons.Default.Favorite,
+                contentDescription = null
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Outlined.FavoriteBorder,
+                contentDescription = null
+            )
         }
     }
 }
@@ -121,6 +170,8 @@ fun MovieItemPreview() {
             title = "Oppenheimer",
             genre = "History",
             synopsis = "lorem ipsum dolor sit amet",
+            isFavorite = false,
+            favoriteToggle = {}
         )
     }
 }

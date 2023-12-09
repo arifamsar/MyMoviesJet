@@ -32,7 +32,6 @@ import com.arfsar.mymovies.di.Injection
 import com.arfsar.mymovies.model.FavoriteFilm
 import com.arfsar.mymovies.ui.ViewModelFactory
 import com.arfsar.mymovies.ui.common.UiState
-import com.arfsar.mymovies.ui.components.FavoriteMovieItem
 import com.arfsar.mymovies.ui.components.MovieItem
 import com.arfsar.mymovies.ui.theme.MyMoviesTheme
 
@@ -80,7 +79,9 @@ fun FavoriteScreen(
                     }
                 }
 
-                is UiState.Error -> {}
+                is UiState.Error -> {
+
+                }
             }
         }
     }
@@ -107,8 +108,8 @@ fun FavoriteContent(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = modifier
         ) {
-            items(updatedFavoriteFilms) { data ->
-                FavoriteMovieItem(
+            items(updatedFavoriteFilms, key = { it.film.id }) { data ->
+                MovieItem(
                     image = data.film.image,
                     title = data.film.title,
                     genre = data.film.genre,

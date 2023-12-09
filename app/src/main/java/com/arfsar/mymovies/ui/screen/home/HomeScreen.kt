@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,10 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -68,6 +64,7 @@ fun HomeScreen(
                         favoriteFilm = uiState.data,
                         modifier = modifier,
                         navigateToDetail = navigateToDetail,
+                        viewModel = viewModel
                     )
                 }
                 is UiState.Error -> {}
@@ -81,6 +78,7 @@ fun HomeContent(
     favoriteFilm: List<FavoriteFilm>,
     modifier: Modifier = Modifier,
     navigateToDetail: (Long) -> Unit,
+    viewModel: HomeViewModel,
 ) {
     val updatedFavoriteFilm by rememberUpdatedState(newValue = favoriteFilm)
 
@@ -91,12 +89,16 @@ fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier.testTag("FilmList")
     ) {
-        items(updatedFavoriteFilm) { data ->
+        items(updatedFavoriteFilm, key = { it.film.id }) { data ->
             MovieItem(
                 image = data.film.image,
                 title = data.film.title,
                 genre = data.film.genre,
                 synopsis = data.film.synopsis,
+                isFavorite = data.isFavoriteFilm,
+                favoriteToggle = {
+                    viewModel.toggleFavorite(data)
+                },
                 modifier = Modifier.clickable {
                     navigateToDetail(data.film.id)
                 }

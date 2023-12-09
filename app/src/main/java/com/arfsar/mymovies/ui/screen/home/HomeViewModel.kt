@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arfsar.mymovies.data.FilmRepository
 import com.arfsar.mymovies.model.FavoriteFilm
-import com.arfsar.mymovies.model.Film
 import com.arfsar.mymovies.ui.common.UiState
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -32,10 +30,10 @@ class HomeViewModel(
         }
     }
 
-    fun toggleFavorite(film: Film, isFavorite: Boolean) {
+    fun toggleFavorite(film: FavoriteFilm) {
         viewModelScope.launch {
-            repository.updateFavoriteFilm(film.id, isFavorite)
-            getAllFilm()
+            film.isFavoriteFilm = !film.isFavoriteFilm
+            repository.updateFavoriteFilm(film.film.id, film.isFavoriteFilm)
         }
     }
 
